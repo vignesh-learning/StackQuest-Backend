@@ -26,8 +26,10 @@ app.get("/", (req, res) => {
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
+  const normalizedEmail = email.toLowerCase().trim();
+
   try {
-    const user = await EmployeeModel.findOne({ email });
+    const user = await EmployeeModel.findOne({ email: normalizedEmail });
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
