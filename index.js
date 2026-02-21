@@ -48,8 +48,10 @@ app.post("/login", async (req, res) => {
 app.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
 
+  const normalizedEmail = email.toLowerCase().trim();
+
   try {
-    const existingUser = await EmployeeModel.findOne({ email });
+    const existingUser = await EmployeeModel.findOne({ email: normalizedEmail });
 
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
@@ -59,12 +61,13 @@ app.post("/register", async (req, res) => {
 
     const user = await EmployeeModel.create({
       name,
-      email,
+      email: normalizedEmail,
       password: hashedPassword
     });
 
     res.status(201).json({ message: "User created", user });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Server error" });
   }
 });
