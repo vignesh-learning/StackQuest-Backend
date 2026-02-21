@@ -22,7 +22,6 @@ mongoose.connect(process.env.MONGO_URI)
 app.get("/", (req, res) => {
   res.send("Backend is running 🚀");
 });
-
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -32,16 +31,17 @@ app.post("/login", async (req, res) => {
     const user = await EmployeeModel.findOne({ email: normalizedEmail });
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(400).json({ message: "Invalid email or password" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.status(400).json({ message: "Incorrect password" });
+      return res.status(400).json({ message: "Invalid email or password" });
     }
 
     res.json({ status: "Success" });
+
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }
