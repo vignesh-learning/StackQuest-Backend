@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
   res.send("Backend is running 🚀");
 });
 
-app.post("/signup", async (req, res) => {
+app.post("/register", async (req, res) => {
   try {
     let { name, email, password } = req.body;
 
