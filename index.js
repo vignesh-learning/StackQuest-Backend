@@ -9,9 +9,8 @@ const EmployeeModel = require("./models/Employee");
 const app = express();
 
 app.use(express.json());
-
 app.use(cors({
-  origin:true,
+  origin: true,
   credentials: true
 }));
 
@@ -22,9 +21,9 @@ mongoose.connect(process.env.MONGO_URI)
 app.get("/", (req, res) => {
   res.send("Backend is running 🚀");
 });
+
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
-
   const normalizedEmail = email.toLowerCase().trim();
 
   try {
@@ -49,7 +48,6 @@ app.post("/login", async (req, res) => {
 
 app.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
-
   const normalizedEmail = email.toLowerCase().trim();
 
   try {
@@ -67,9 +65,9 @@ app.post("/register", async (req, res) => {
       password: hashedPassword
     });
 
-    res.status(201).json({ message: "User created", user });
+    res.status(201).json({ message: "User created" });
+
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: "Server error" });
   }
 });
